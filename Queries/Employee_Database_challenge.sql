@@ -61,3 +61,33 @@ ORDER BY e.emp_no
 
 -- Verify table
 SELECT * FROM mentorship_eligibility
+
+-- DELIVERABLE 3
+
+-- Create a count of mentor titles
+SELECT COUNT(me.titles), me.titles
+INTO mentor_titles
+FROM mentorship_eligibility AS me
+GROUP BY me.titles
+ORDER BY COUNT(me.titles) DESC;
+
+-- Verify table
+SELECT * FROM mentor_titles;
+
+--Roles per Staff and Departament: 
+SELECT DISTINCT ON (rt.emp_no) 
+	                rt.emp_no,
+	                rt.first_name,
+	                rt.last_name,
+	                rt.titles,
+	                d.dept_name
+INTO retiring_deptarments
+FROM retirement_titles as rt
+INNER JOIN dept_emp as de
+    ON (rt.emp_no = de.emp_no)
+INNER JOIN departments as d
+    ON (d.dept_no = de.dept_no)
+ORDER BY rt.emp_no, rt.to_date DESC;
+
+-- Verify table
+SELECT * FROM retiring_deptarments;
